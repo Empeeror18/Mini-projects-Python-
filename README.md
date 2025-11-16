@@ -1,0 +1,1 @@
+# This folder contains the mini projects made using python.
