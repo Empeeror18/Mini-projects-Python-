@@ -1,7 +1,6 @@
 def deposit():
     while True:
-        try:
-            amount = input("Enter the amount to be deposited: $")
+        amount = input("Enter the amount to be deposited: $")
         if amount.isdigit():
             amount = int(amount)
             if amount < 0:
