@@ -123,7 +123,7 @@ def spin (balance):
 
     winnings = check_winnings(slots, lines, bet, symbol_values)
     print(f"You won ${winnings}.")
-    return winnings
+    return winnings - total_bet
 
 
 def main():
