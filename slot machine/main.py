@@ -14,6 +14,13 @@ symbol_count = {
     "💸" : 8
 }
 
+symbol_values = {
+    "💎": 8,
+    "🍗": 4,
+    "🎀": 2,
+    "💸": 1
+}
+
 def sm_spin(rows,cols,symbols):
     all_symbols = []
     for symbol, symbol_count in symbols.items():
@@ -31,6 +38,30 @@ def sm_spin(rows,cols,symbols):
 
         columns.append(column)
     return columns
+
+def check_winnings(columns, lines, bet, values):
+    winnings = 0
+    winning_lines = []
+    for line in range(lines):
+        symbol = columns[0][line]
+        for column in columns:
+            symbol_check = column[line]
+            if symbol != symbol_check:
+                break
+        else:
+            winnings += values[symbol] * bet
+
+    return winnings
+
+def print_sm(columns):
+    rows = len(columns[0])
+    print("+-------------------------+")
+    for r in range(rows):
+        row_items = []
+        for col in columns:
+            row_items.append(col[r])
+        print(" | ".join(row_items))
+    print("+-------------------------+")
 
 
 
@@ -74,11 +105,34 @@ def get_bets():
             print("Enter a Valid amount")
     return bet
 
+def spin (balance):
+    lines = get_number_of_lines()
+    while True:
+        bet = get_bets()
+        total_bet = bet * lines
+
+        if total_bet > balance:
+            print(f"You do not have enough credits! Your current balance is {balance}")
+        else:
+            break
+
+    print(f"You are betting ${balance} on {lines} lines. Your total bet is ${total_bet}.")
+
+    slots = sm_spin(ROWS, COLS, symbol_count)
+    print_sm(slots)
+
+    winnings = check_winnings(slots, lines, bet, symbol_values)
+    print(f"You won ${winnings}.")
+    return winnings
 
 
 def main():
-    amount = deposit()
-    lines = get_number_of_lines()
-    bet = get_bets()
+    balance = deposit()
+    while True:
+        print(f"Current balance is ${balance}")
+        answer = input("Press enter to play (q to quit).").lower()
+        if answer == "q":
+            break
+        balance += spin(balance)
 
 main()
